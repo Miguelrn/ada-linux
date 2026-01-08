@@ -5,24 +5,29 @@ with Ada.Numerics.Elementary_Functions; use Ada.Numerics.Elementary_Functions;
 
 procedure Main is 
    -- types
-   type Vec2 is record
-      X, Y: Float;
-   end record;
-
-   type Vec3 is record
-      X, Y, Z: Float;
-   end record;
-
-   type Color is record
-      R, G, B, A : Interfaces.C.unsigned_char;
-   end record
-   with Convention => C;
-
    subtype C_Int   is Interfaces.C.int;
    subtype C_Float is Interfaces.C.C_float;
    subtype C_Char  is Interfaces.C.char;
+   subtype C_UChar is Interfaces.C.unsigned_char;
+   subtype C_Char_array is Interfaces.C.char_array;
 
-   procedure Init_Window(Width, Height: C_Int; Title: Interfaces.C.char_array)
+   type Vec2 is record
+      X, Y: C_Float;
+   end record;
+
+   type Vec3 is record
+      X, Y, Z: C_Float;
+   end record;
+   
+   type Color is record
+      R: C_UChar;
+      G: C_UChar;
+      B: C_UChar;
+      A: C_UChar;
+   end record
+   with Convention => C;
+
+   procedure Init_Window(Width, Height: C_Int; Title: C_Char_array)
       with Import => True, Convention => C, External_Name => "InitWindow";
 
    function Window_Should_Close return C_Int
@@ -37,15 +42,14 @@ procedure Main is
    procedure Clear_Background (C: Color)
       with Import => True, Convention => C, External_Name => "ClearBackground";
 
-   procedure Draw_Text(Text: Interfaces.C.char_array; PosX, PosY: C_Int; Font_Size : C_Int; Tint: Color)
+   procedure Draw_Text(Text: C_Char_array; PosX, PosY: C_Int; Font_Size : C_Int; Tint: Color)
       with Import => True, Convention => C, External_Name => "DrawText";
 
-   procedure Draw_Line_Ex (Start_X, Start_Y, End_X, End_Y, Thickness : Interfaces.C.C_Float; Color : Interfaces.C.Int) 
+   procedure Draw_Line_Ex (Start_X, Start_Y, End_X, End_Y, Thickness : C_Float; Color : C_Int) 
          with Import => True, Convention => C, External_Name => "DrawLineEx";
-   
-   procedure Draw_Rectangle (X, Y, Width, Height : Interfaces.C.Int; Color : Interfaces.C.Int) 
-      with Import => True, Convention => C, External_Name => "DrawRectangle";
 
+   procedure Draw_Rectangle(X, Y, Width, Height: C_Int; C: Color)
+      with Import => True, Convention => C,External_Name => "DrawRectangle";
 
 
 
@@ -55,8 +59,8 @@ procedure Main is
 
    FPS: constant Integer := 60;
 
-   Background: constant Color := (16, 16, 16, 255);
-   Foreground: constant Color := (80, 255, 80, 255);
+   Background: constant Color := (R => 16, G => 16, B => 16, A => 255);
+   Foreground: constant Color :=(R => 80, G => 255, B => 80, A => 255);
 
 
    -- helper functions
@@ -68,19 +72,19 @@ procedure Main is
    function Screen (P: Vec2) return Vec2 is
    begin
       return (
-         X => (P.X + 1.0) / 2.0 * Float (Screen_Width),
-         Y => (1.0 - (P.Y + 1.0) / 2.0) * Float (Screen_Height)
+         X => (P.X + 1.0) / 2.0 * C_Float (Screen_Width),
+         Y => (1.0 - (P.Y + 1.0) / 2.0) * C_Float (Screen_Height)
       );
    end Screen;
 
-   function Translate_Z (P: Vec3; DZ: Float) return Vec3 is
+   function Translate_Z (P: Vec3; DZ: C_Float) return Vec3 is
    begin
       return (X => P.X, Y => P.Y, Z => P.Z + DZ);
    end Translate_Z;
 
-   function Rotate_XZ (P : Vec3; Angle : Float) return Vec3 is
-      C : constant Float := Cos (Angle);
-      S : constant Float := Sin (Angle);
+   function Rotate_XZ (P : Vec3; Angle : C_Float) return Vec3 is
+      C : constant C_Float := Cos (Angle);
+      S : constant C_Float := Sin (Angle);
    begin
       return (
          X => P.X * C - P.Z * S,
@@ -95,13 +99,13 @@ procedure Main is
    end Clear;
 
    procedure Draw_Point (P : Vec2) is
-      S : constant Float := 20.0;
+      S : constant C_Float := 20.0;
    begin
       Draw_Rectangle (
-         Interfaces.C.Int (P.X - S / 2.0),
-         Interfaces.C.Int (P.Y - S / 2.0),
-         Interfaces.C.Int (S),
-         Interfaces.C.Int (S),
+         C_Int(P.X - S / 2.0),
+         C_Int(P.Y - S / 2.0),
+         C_Int(S),
+         C_Int(S),
          Foreground
       );
    end Draw_Point;
@@ -109,8 +113,10 @@ procedure Main is
    procedure Draw_Line (A, B : Vec2) is
    begin
       Draw_Line_Ex (
-         A.X, A.Y,
-         B.X, B.Y,
+         A.X, 
+         A.Y,
+         B.X, 
+         B.Y,
          3.0,
          Foreground
       );
