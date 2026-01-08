@@ -3,11 +3,14 @@ M P W=b
 P SS ZX
 
 RN
+RV NO_FLOATING_POINT
 RV NO_IO
 RV NO_SECONDARY_STACK
 
-U main%b		main.adb		9c8dcfd4 NE OO SU
+U main%b		main.adb		399d0442 NE OO SU
 W ada%s			ada.ads			ada.ali
+W ada.numerics%s	a-numeri.ads		a-numeri.ali
+W ada.numerics.elementary_functions%s  a-nuelfu.ads  a-nuelfu.ali
 Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
 W interfaces%s		interfac.ads		interfac.ali
@@ -17,6 +20,9 @@ Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 D ada.ads		20240521074738 76789da1 ada%s
 D a-except.ads		20240521074738 2a7d8d70 ada.exceptions%s
 D a-ioexce.ads		20240521074738 40018c65 ada.io_exceptions%s
+D a-numeri.ads		20240521074738 84bea7a3 ada.numerics%s
+D a-nuelfu.ads		20240521074738 dc1b3a37 ada.numerics.elementary_functions%s
+D a-ngelfu.ads		20240521074738 58d8ffc8 ada.numerics.generic_elementary_functions%s
 D a-stream.ads		20240521074738 119b8fb3 ada.streams%s
 D a-string.ads		20240521074738 90ac6797 ada.strings%s
 D a-sttebu.ads		20240521074738 f1ad67a2 ada.strings.text_buffers%s
@@ -27,7 +33,7 @@ D a-unccon.ads		20240521074738 0e9b276f ada.unchecked_conversion%s
 D interfac.ads		20240521074738 15f799c2 interfaces%s
 D i-c.ads		20240521074738 5c5a6c17 interfaces.c%s
 D i-cstrea.ads		20240521074738 e53d8b8e interfaces.c_streams%s
-D main.adb		20260106193919 9cfbc290 main%b
+D main.adb		20260108225201 e5f03331 main%b
 D system.ads		20240521074738 426dafb8 system%s
 D s-crtl.ads		20240521074738 8a0692f8 system.crtl%s
 D s-exctab.ads		20240521074738 91bef6ef system.exception_table%s
@@ -44,28 +50,102 @@ D s-traent.ads		20240521074738 c81cbf8c system.traceback_entries%s
 D s-unstyp.ads		20240521074738 fa2a7f59 system.unsigned_types%s
 D s-wchcon.ads		20240521074738 d9032363 system.wch_con%s
 G a e
-G c Z b b [main standard 4 11 none]
+G c Z b b [main standard 6 11 none]
 X 1 ada.ads
-16K9*Ada 20e8 14|1r6 1r23
-X 9 a-textio.ads
-58K13*Text_IO 787e16 14|1w10 1r27
-X 11 interfac.ads
-38K9*Interfaces 232e15 14|2r6 2r24
-X 12 i-c.ads
-29K20*C 597e17 14|2w17 2r35
-57I9*int<integer> 14|5r43 7r41
-105E9*char<character>
-120A9*char_array(105E9)<88M9> 14|5r56
-141V13*To_C{120A9} 14|18s27
-X 14 main.adb
-4U11*Main 4b11 25t4
-5U15*Init_Window 5>27 5>34 5>48 18s5
-5i27 Width{12|57I9}
-5i34 Height{12|57I9}
-5a48 Title{12|120A9}
-7V14*Window_Should_Close{12|57I9} 19s11
-9U15*Begin_Drawing 20s9
-11U15*Clear_Background
-13U15*Draw_Text
-15U15*End_Drawing 23s9
+16K9*Ada 20e8 17|1r6 1r23 3r6 3r45
+X 4 a-numeri.ads
+16K13*Numerics 35e17 17|3r10 3r49
+X 5 a-nuelfu.ads
+18K22*Elementary_Functions[6|39] 17|3w19 3r58
+X 6 a-ngelfu.ads
+95V13*Sin{float} 17|102s29[5|18]
+105V13*Cos{float} 17|101s29[5|18]
+X 12 a-textio.ads
+58K13*Text_IO 787e16 17|1w10 1r27
+X 14 interfac.ads
+38K9*Interfaces 232e15 17|2r6 2r24 8r23 9r23 10r23 11r23 12r28 23r10 24r10
+. 25r10 26r10
+X 15 i-c.ads
+29K20*C 597e17 17|2w17 2r35 8r34 9r34 10r34 11r34 12r39 23r21 24r21 25r21
+. 26r21
+57I9*int<integer> 17|8r36
+71M9*unsigned_char 17|11r36 23r23 24r23 25r23 26r23
+97F9*C_float<float> 17|9r36
+105E9*char<character> 17|10r36
+120A9*char_array(105E9)<88M9> 17|12r41
+141V13*To_C{120A9} 17|143s45 147s17
+X 17 main.adb
+6U11*Main 6b11 150t4
+8I12 C_Int{15|57I9} 37r41 40r40 52r56 52r75 58r50 64r27 65r28 74r43 76r14
+. 77r13 78r13 79r13 120r10 121r10 122r10 123r10
+9F12 C_Float{15|97F9} 55r72 132r10 133r10 134r10 135r10 136r10
+10E12 C_Char{15|105E9}
+11M12 C_UChar{15|71M9}
+12A12 C_Char_array{15|120A9}<15|88M9> 37r55 52r30
+14R9 Vec2 16e14 82r38 87r24 87r37 116r30 129r32
+15f7 X{float} 90m10 90r18 120r18 132r20 134r20
+15f10 Y{float} 91m10 91r25 121r18 133r20 135r20
+18R9 Vec3 20e14 82r25 95r29 95r53 100r27 100r54
+19f7 X{float} 84r17 97m15 97r22 105m10 105r17 107r17
+19f10 Y{float} 84r28 97m25 97r32 106m10 106r17
+19f13 Z{float} 84r23 84r34 97m35 97r42 105r27 107m10 107r27
+22R9 Color 28e4 29r8 35r8 49r35 52r88 55r84 58r60 69r25 70r25 74r29
+23m7 R{15|71M9} 30r7 69m35 70m34 76r22
+24m7 G{15|71M9} 31r7 69m44 70m43 77r21
+25m7 B{15|71M9} 32r7 69m53 70m53 78r21
+26m7 A{15|71M9} 33r7 69m62 70m62 79r21
+37U14*Init_Window 37>26 37>33 37>48 143s4
+37i26 Width{8I12}
+37i33 Height{8I12}
+37a48 Title{12A12}
+40V13*Window_Should_Close{8I12} 144s10
+43U14*Begin_Drawing 145s7
+46U14*End_Drawing 148s7
+49U14*Clear_Background 49>32 113s7 146s7
+49r32 C{22R9}
+52U14*Draw_Text 52>24 52>44 52>50 52>63 52>82 147s7
+52a24 Text{12A12}
+52i44 PosX{8I12}
+52i50 PosY{8I12}
+52i63 Font_Size{8I12}
+52r82 Tint{22R9}
+55U14*Draw_Line_Ex 55>28 55>37 55>46 55>53 55>60 55>81 131s7
+55f28 Start_X{9F12}
+55f37 Start_Y{9F12}
+55f46 End_X{9F12}
+55f53 End_Y{9F12}
+55f60 Thickness{9F12}
+55r81 C{22R9}
+58U14*Draw_Rectangle 58>29 58>32 58>35 58>42 58>57 119s7
+58i29 X{8I12}
+58i32 Y{8I12}
+58i35 Width{8I12}
+58i42 Height{8I12}
+58r57 C{22R9}
+64i4 Screen_Width{8I12} 90r42 143r16
+65i4 Screen_Height{8I12} 91r50 143r30
+67i4 FPS{integer}
+69r4 Background{22R9} 113r25 146r24
+70r4 Foreground{22R9} 124r10 137r10 147r55
+74V13 Color_To_Int{8I12} 74b13 74>26 80l8 80t20
+74r26 C{22R9} 76r20 77r19 78r19 79r19
+82V13 Project{14R9} 82b13 82>22 85l8 85t15
+82r22 P{18R9} 84r15 84r21 84r26 84r32
+87V13 Screen{14R9} 87b13 87>21 93l8 93t14
+87r21 P{14R9} 90r16 91r23
+95V13 Translate_Z{18R9} 95b13 95>26 95>35 98l8 98t19
+95r26 P{18R9} 97r20 97r30 97r40
+95f35 DZ{float} 97r46
+100V13 Rotate_XZ{18R9} 100b13 100>24 100>33 109l8 109t17
+100r24 P{18R9} 105r15 105r25 106r15 107r15 107r25
+100f33 Angle{float} 101r34 102r34
+101f7 C{float} 105r21 107r31
+102f7 S{float} 105r31 107r21
+111U14 Clear 111b14 114l8 114t13
+116U14 Draw_Point 116b14 116>26 126l8 126t18
+116r26 P{14R9} 120r16 121r16
+117f7 S{float} 120r22 121r22 122r16 123r16
+129U14 Draw_Line 129b14 129>25 129>28 139l8 139t17
+129r25 A{14R9} 132r18 133r18
+129r28 B{14R9} 134r18 135r18
 
