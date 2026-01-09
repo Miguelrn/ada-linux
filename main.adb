@@ -1,6 +1,7 @@
 with ADA.Text_IO; use ADA.Text_IO;
 with Interfaces.C; use Interfaces.C;
 with Ada.Numerics.Elementary_Functions; use Ada.Numerics.Elementary_Functions;
+with Ada.Numerics; use Ada.Numerics;
 
 
 procedure Main is 
@@ -58,10 +59,24 @@ procedure Main is
    Screen_Width: constant int := 800;
    Screen_Height: constant int := 600;
 
-   FPS: constant Integer := 60;
+   FPS: constant float := 60.0;
+   dz: float := 1.0;
+   angle: float := 0.0;
 
    Background: constant Color := (R => 16, G => 16, B => 16, A => 255);
    Foreground: constant Color := (R => 80, G => 255, B => 80, A => 255);
+
+   vertices: constant array(1..8) of vec3 := (
+      (x => 0.25, y => 0.25, z => 0.25),
+      (x => -0.25, y => 0.25, z => 0.25),
+      (x => -0.25, y => -0.25, z => 0.25),
+      (x => 0.25, y => -0.25, z => 0.25),
+
+      (x => 0.25, y => 0.25, z => -0.25),
+      (x => -0.25, y => 0.25, z => -0.25),
+      (x => -0.25, y => -0.25, z => -0.25),
+      (x => 0.25, y => -0.25, z => -0.25)
+   );
 
 
    -- helper functions
@@ -80,14 +95,14 @@ procedure Main is
       );
    end Screen;
 
-   function Translate_Z (P: Vec3; DZ: Float) return Vec3 is
+   function Translate_Z (P: Vec3; DZ: float) return Vec3 is
    begin
       return (X => P.X, Y => P.Y, Z => P.Z + DZ);
    end Translate_Z;
 
-   function Rotate_XZ (P: Vec3; Angle: Float) return Vec3 is
-      C : constant Float := Cos (Angle);
-      S : constant Float := Sin (Angle);
+   function Rotate_XZ (P: Vec3; Angle: float) return Vec3 is
+      C : constant float := Cos (Angle);
+      S : constant float := Sin (Angle);
    begin
       return (
          X => P.X * C - P.Z * S,
@@ -125,14 +140,32 @@ procedure Main is
       );
    end Draw_Line;
 
+   procedure Frame is
+      dt: constant float := 1.0/FPS;
+   begin
+      angle := angle + Pi * dt;
+      dz := dz + dt;
+
+      clear;
+
+      for vertice of vertices loop
+         Draw_Point(Screen(Project(Translate_Z(Rotate_XZ(vertice, angle), dz))));
+      end loop;
+
+   end Frame;
+
 
 begin
    Init_Window(Screen_Width, Screen_Height, To_C("Hypercube")); -- Null termination handled by To_C
+
    while Window_Should_Close = 0 loop
       Begin_Drawing;
       Clear;
-      Draw_Point(Screen(Project((x => 0.0, y => 0.0, z => 1.0))));
-      -- Draw_Text (To_C ("Hello from Ada"), 190, 200, 20, Foreground);
-      End_Drawing;
+      Frame;
+      End_Drawing;   
+      Delay(Duration(1.0/FPS));
    end loop;
+
+      -- Draw_Text (To_C ("Hello from Ada"), 190, 200, 20, Foreground);
+   
 end;

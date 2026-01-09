@@ -3,12 +3,16 @@ M P W=b
 P SS ZX
 
 RN
+RV NO_DELAY
+RV NO_FIXED_POINT
 RV NO_FLOATING_POINT
 RV NO_IO
+RV NO_RELATIVE_DELAY
 RV NO_SECONDARY_STACK
 
-U main%b		main.adb		cf8d654e NE OO SU
+U main%b		main.adb		899ce88d NE OO SU
 W ada%s			ada.ads			ada.ali
+Z ada.calendar.delays%s	a-caldel.adb		a-caldel.ali
 W ada.numerics%s	a-numeri.ads		a-numeri.ali
 W ada.numerics.elementary_functions%s  a-nuelfu.ads  a-nuelfu.ali
 Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
@@ -18,6 +22,8 @@ W interfaces.c%s	i-c.adb			i-c.ali
 Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 
 D ada.ads		20240521074738 76789da1 ada%s
+D a-calend.ads		20240904144414 e6961b4c ada.calendar%s
+D a-caldel.ads		20240521074737 9f20b83d ada.calendar.delays%s
 D a-except.ads		20240521074738 2a7d8d70 ada.exceptions%s
 D a-ioexce.ads		20240521074738 40018c65 ada.io_exceptions%s
 D a-numeri.ads		20240521074738 84bea7a3 ada.numerics%s
@@ -33,7 +39,7 @@ D a-unccon.ads		20240521074738 0e9b276f ada.unchecked_conversion%s
 D interfac.ads		20240521074738 15f799c2 interfaces%s
 D i-c.ads		20240521074738 5c5a6c17 interfaces.c%s
 D i-cstrea.ads		20240521074738 e53d8b8e interfaces.c_streams%s
-D main.adb		20260109191215 13e0523d main%b
+D main.adb		20260109215022 d14f785d main%b
 D system.ads		20240521074738 426dafb8 system%s
 D s-crtl.ads		20240521074738 8a0692f8 system.crtl%s
 D s-exctab.ads		20240521074738 91bef6ef system.exception_table%s
@@ -50,100 +56,110 @@ D s-traent.ads		20240521074738 c81cbf8c system.traceback_entries%s
 D s-unstyp.ads		20240521074738 fa2a7f59 system.unsigned_types%s
 D s-wchcon.ads		20240521074738 d9032363 system.wch_con%s
 G a e
-G c Z b b [main standard 6 11 none]
+G c Z b b [main standard 7 11 none]
 X 1 ada.ads
-16K9*Ada 20e8 17|1r6 1r23 3r6 3r45
-X 4 a-numeri.ads
-16K13*Numerics 35e17 17|3r10 3r49
-X 5 a-nuelfu.ads
-18K22*Elementary_Functions[6|39] 17|3w19 3r58
-X 6 a-ngelfu.ads
-95V13*Sin{float} 17|90s29[5|18]
-105V13*Cos{float} 17|89s29[5|18]
-X 12 a-textio.ads
-58K13*Text_IO 787e16 17|1w10 1r27
-X 14 interfac.ads
-38K9*Interfaces 232e15 17|2r6 2r24 8r22
-X 15 i-c.ads
-29K20*C 597e17 17|2w17 2r35 8r33
-57I9*int<integer> 17|8r35 18r41 44r56 47r54 47r69 50r56 58r27 59r28 108r10
-. 109r10 110r10 111r10
-71M9*unsigned_char 17|34r12 35r12 36r12 37r12
+16K9*Ada 20e8 19|1r6 1r23 3r6 3r45 4r6 4r24
+X 6 a-numeri.ads
+16K13*Numerics 35e17 19|3r10 3r49 4w10 4r28
+21N4*Pi 19|146r24
+X 7 a-nuelfu.ads
+18K22*Elementary_Functions[8|39] 19|3w19 3r58
+X 8 a-ngelfu.ads
+95V13*Sin{float} 19|105s29[7|18]
+105V13*Cos{float} 19|104s29[7|18]
+X 14 a-textio.ads
+58K13*Text_IO 787e16 19|1w10 1r27
+X 16 interfac.ads
+38K9*Interfaces 232e15 19|2r6 2r24 9r22
+X 17 i-c.ads
+29K20*C 597e17 19|2w17 2r35 9r33
+57I9*int<integer> 19|9r35 19r41 45r56 48r54 48r69 51r56 59r27 60r28 123r10
+. 124r10 125r10 126r10
+71M9*unsigned_char 19|35r12 36r12 37r12 38r12
 105E9*char<character>
-120A9*char_array(105E9)<88M9> 17|18r56 47r30
-141V13*To_C{120A9} 17|131s45
-X 17 main.adb
-6U11*Main 6b11 139t4
-8I12 C_Bool{15|57I9} 24r40
-10R9 Vec2 12e14 68r38 73r24 73r37 104r30 117r32
-11f7 X{float} 78m10 78r18 108r16 120r18 122r18
-11f10 Y{float} 79m10 79r25 109r16 121r18 123r18
-14R9 Vec3 16e14 68r25 83r29 83r53 88r27 88r54
-15f7 X{float} 70r17 85m15 85r22 93m10 93r17 95r17 135m34
-15f10 Y{float} 70r28 85m25 85r32 94m10 94r17 135m44
-15f13 Z{float} 70r23 70r34 85m35 85r42 93r27 95m10 95r27 135m54
-18U14*Init_Window 18>26 18>33 18>46 131s4
-18i26 Width{15|57I9}
-18i33 Height{15|57I9}
-18a46 Title{15|120A9}
-21U14*Close_Window
-24V13*Window_Should_Close{8I12} 132s10
-27U14*Begin_Drawing 133s7
-30U14*End_Drawing 137s7
-33R9 Color 39e7 41r34 44r64 47r77 50r66 53r83 63r25 64r25
-34m9 r{15|71M9} 63m35 64m35
-35m9 g{15|71M9} 63m44 64m44
-36m9 b{15|71M9} 63m53 64m54
-37m9 a{15|71M9} 63m62 64m63
-41U14*Clear_Background 41>31 101s7
-41r31 c{33R9}
-44U14*Draw_Rectangle 44>29 44>35 44>41 44>48 44>61 107s7
-44i29 posX{15|57I9}
-44i35 posY{15|57I9}
-44i41 Width{15|57I9}
-44i48 Height{15|57I9}
-44r61 c{33R9}
-47U14*Draw_Text 47>24 47>42 47>48 47>59 47>74
-47a24 Text{15|120A9}
-47i42 PosX{15|57I9}
-47i48 PosY{15|57I9}
-47i59 FontSize{15|57I9}
-47r74 C{33R9}
-50U14*Draw_Line 50>24 50>33 50>42 50>49 50>61
-50i24 Start_X{15|57I9}
-50i33 Start_Y{15|57I9}
-50i42 End_X{15|57I9}
-50i49 End_Y{15|57I9}
-50r61 Col{33R9}
-53U14*Draw_Line_Ex 53>28 53>37 53>46 53>53 53>60 53>78 119s7
-53f28 Start_X{float}
-53f37 Start_Y{float}
-53f46 End_X{float}
-53f53 End_Y{float}
-53f60 Thickness{float}
-53r78 col{33R9}
-58i4 Screen_Width{15|57I9} 78r42 131r16
-59i4 Screen_Height{15|57I9} 79r50 131r30
-61i4 FPS{integer}
-63r4 Background{33R9} 101r25
-64r4 Foreground{33R9} 112r10 125r10
-68V13 Project{10R9} 68b13 68>22 71l8 71t15 135s25
-68r22 P{14R9} 70r15 70r21 70r26 70r32
-73V13 Screen{10R9} 73b13 73>21 81l8 81t14 135s18
-73r21 P{10R9} 78r16 79r23
-83V13 Translate_Z{14R9} 83b13 83>26 83>35 86l8 86t19
-83r26 P{14R9} 85r20 85r30 85r40
-83f35 DZ{float} 85r46
-88V13 Rotate_XZ{14R9} 88b13 88>24 88>33 97l8 97t17
-88r24 P{14R9} 93r15 93r25 94r15 95r15 95r25
-88f33 Angle{float} 89r34 90r34
-89f7 C{float} 93r21 95r31
-90f7 S{float} 93r31 95r21
-99U14 Clear 99b14 102l8 102t13 134s7
-104U14 Draw_Point 104b14 104>26 114l8 114t18 135s7
-104r26 P{10R9} 108r14 109r14
-105f7 S{float} 108r20 109r20 110r14 111r14
-117U14 Draw_Line 117b14 117>25 117>28 127l8 127t17
-117r25 A{10R9} 120r16 121r16
-117r28 B{10R9} 122r16 123r16
+120A9*char_array(105E9)<88M9> 19|19r56 48r30
+141V13*To_C{120A9} 19|159s45
+X 19 main.adb
+7U11*Main 7b11 171t4
+9I12 C_Bool{17|57I9} 25r40
+11R9 Vec2 13e14 83r38 88r24 88r37 119r30 131r32
+12f7 X{float} 93m10 93r18 123r16 134r18 136r18
+12f10 Y{float} 94m10 94r25 124r16 135r18 137r18
+15R9 Vec3 17e14 69r38 83r25 98r29 98r53 103r27 103r54
+16f7 X{float} 70m8 71m8 72m8 73m8 75m8 76m8 77m8 78m8 85r17 100m15 100r22
+. 108m10 108r17 110r17
+16f10 Y{float} 70m19 71m20 72m20 73m19 75m19 76m20 77m20 78m19 85r28 100m25
+. 100r32 109m10 109r17
+16f13 Z{float} 70m30 71m31 72m32 73m31 75m30 76m31 77m32 78m31 85r23 85r34
+. 100m35 100r42 108r27 110m10 110r27
+19U14*Init_Window 19>26 19>33 19>46 159s4
+19i26 Width{17|57I9}
+19i33 Height{17|57I9}
+19a46 Title{17|120A9}
+22U14*Close_Window
+25V13*Window_Should_Close{9I12} 161s10
+28U14*Begin_Drawing 162s7
+31U14*End_Drawing 165s7
+34R9 Color 40e7 42r34 45r64 48r77 51r66 54r83 66r25 67r25
+35m9 r{17|71M9} 66m35 67m35
+36m9 g{17|71M9} 66m44 67m44
+37m9 b{17|71M9} 66m53 67m54
+38m9 a{17|71M9} 66m62 67m63
+42U14*Clear_Background 42>31 116s7
+42r31 c{34R9}
+45U14*Draw_Rectangle 45>29 45>35 45>41 45>48 45>61 122s7
+45i29 posX{17|57I9}
+45i35 posY{17|57I9}
+45i41 Width{17|57I9}
+45i48 Height{17|57I9}
+45r61 c{34R9}
+48U14*Draw_Text 48>24 48>42 48>48 48>59 48>74
+48a24 Text{17|120A9}
+48i42 PosX{17|57I9}
+48i48 PosY{17|57I9}
+48i59 FontSize{17|57I9}
+48r74 C{34R9}
+51U14*Draw_Line 51>24 51>33 51>42 51>49 51>61
+51i24 Start_X{17|57I9}
+51i33 Start_Y{17|57I9}
+51i42 End_X{17|57I9}
+51i49 End_Y{17|57I9}
+51r61 Col{34R9}
+54U14*Draw_Line_Ex 54>28 54>37 54>46 54>53 54>60 54>78 133s7
+54f28 Start_X{float}
+54f37 Start_Y{float}
+54f46 End_X{float}
+54f53 End_Y{float}
+54f60 Thickness{float}
+54r78 col{34R9}
+59i4 Screen_Width{17|57I9} 93r42 159r16
+60i4 Screen_Height{17|57I9} 94r50 159r30
+62f4 FPS{float} 144r33 166r26
+63f4 dz{float} 147m7 147r13 152r75
+64f4 angle{float} 146m7 146r16 152r67
+66r4 Background{34R9} 116r25
+67r4 Foreground{34R9} 127r10 139r10
+69a4 vertices(15R9) 151r22
+83V13 Project{11R9} 83b13 83>22 86l8 86t15 152s28
+83r22 P{15R9} 85r15 85r21 85r26 85r32
+88V13 Screen{11R9} 88b13 88>21 96l8 96t14 152s21
+88r21 P{11R9} 93r16 94r23
+98V13 Translate_Z{15R9} 98b13 98>26 98>35 101l8 101t19 152s36
+98r26 P{15R9} 100r20 100r30 100r40
+98f35 DZ{float} 100r46
+103V13 Rotate_XZ{15R9} 103b13 103>24 103>33 112l8 112t17 152s48
+103r24 P{15R9} 108r15 108r25 109r15 110r15 110r25
+103f33 Angle{float} 104r34 105r34
+104f7 C{float} 108r21 110r31
+105f7 S{float} 108r31 110r21
+114U14 Clear 114b14 117l8 117t13 149s7 163s7
+119U14 Draw_Point 119b14 119>26 129l8 129t18 152s10
+119r26 P{11R9} 123r14 124r14
+120f7 S{float} 123r20 124r20 125r14 126r14
+131U14 Draw_Line 131b14 131>25 131>28 141l8 141t17
+131r25 A{11R9} 134r16 135r16
+131r28 B{11R9} 136r16 137r16
+143U14 Frame 143b14 155l8 155t13 164s7
+144f7 dt{float} 146r29 147r18
+151r11 vertice=151:22{15R9} 152r58
 
