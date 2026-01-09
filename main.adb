@@ -5,11 +5,7 @@ with Ada.Numerics.Elementary_Functions; use Ada.Numerics.Elementary_Functions;
 
 procedure Main is 
    -- types
-   subtype C_Int   is Interfaces.C.int;
-   subtype C_Float is Interfaces.C.C_float;
-   subtype C_Char  is Interfaces.C.char;
-   subtype C_UChar is Interfaces.C.unsigned_char;
-   subtype C_Char_array is Interfaces.C.char_array;
+   subtype C_Bool is Interfaces.C.int;
 
    type Vec2 is record
       X, Y: Float;
@@ -18,26 +14,14 @@ procedure Main is
    type Vec3 is record
       X, Y, Z: Float;
    end record;
-   
-   type Color is record
-      R: Interfaces.C.unsigned_char;
-      G: Interfaces.C.unsigned_char;
-      B: Interfaces.C.unsigned_char;
-      A: Interfaces.C.unsigned_char;
-   end record
-   with Convention => C;
-   for Color use record
-      R at 0 range 0 .. 7;
-      G at 1 range 0 .. 7;
-      B at 2 range 0 .. 7;
-      A at 3 range 0 .. 7;
-   end record;
-   for Color'Size use 32;
 
-   procedure Init_Window(Width, Height: C_Int; Title: C_Char_array)
-      with Import => True, Convention => C, External_Name => "InitWindow";
+   procedure Init_Window(Width, Height: int; Title: in char_array)
+      with Import => True, Convention => C,External_Name => "InitWindow";
 
-   function Window_Should_Close return C_Int
+   procedure Close_Window
+      with Import => True, Convention => C, External_Name => "CloseWindow";
+
+   function Window_Should_Close return C_Bool
       with Import => True, Convention => C, External_Name => "WindowShouldClose";
 
    procedure Begin_Drawing
@@ -46,18 +30,28 @@ procedure Main is
    procedure End_Drawing
       with Import => True, Convention => C, External_Name => "EndDrawing";
 
-   procedure Clear_Background (C: Color)
+   type Color is record
+        r: unsigned_char;
+        g: unsigned_char;
+        b: unsigned_char;
+        a: unsigned_char;
+   end record
+      with Convention => C_Pass_By_Copy;
+
+   procedure Clear_Background(c: Color)
       with Import => True, Convention => C, External_Name => "ClearBackground";
 
-   procedure Draw_Text(Text: C_Char_array; PosX, PosY: C_Int; Font_Size : C_Int; Tint: Color)
+   procedure Draw_Rectangle(posX, posY, Width, Height: int; c: Color)
+      with Import => True, Convention => C, External_Name => "DrawRectangle";
+
+   procedure Draw_Text(Text: char_array; PosX, PosY: int; FontSize: Int; C: Color)
       with Import => True, Convention => C, External_Name => "DrawText";
 
-   procedure Draw_Line_Ex (Start_X, Start_Y, End_X, End_Y, Thickness : C_Float; C: Color) 
-         with Import => True, Convention => C, External_Name => "DrawLineEx";
+   procedure Draw_Line(Start_X, Start_Y, End_X, End_Y: int; Col: Color)
+      with Import => True, Convention => C, External_Name => "DrawLine";
 
-   procedure Draw_Rectangle(X, Y, Width, Height: C_Int; C: Color)
-      with Import => True, Convention => C,External_Name => "DrawRectangle";
-
+   procedure Draw_Line_Ex (Start_X, Start_Y, End_X, End_Y, Thickness: float; col: Color) 
+      with Import => True, Convention => C, External_Name => "DrawLineEx";
 
 
    -- constants
@@ -67,7 +61,7 @@ procedure Main is
    FPS: constant Integer := 60;
 
    Background: constant Color := (R => 16, G => 16, B => 16, A => 255);
-   Foreground: constant Color :=(R => 80, G => 255, B => 80, A => 255);
+   Foreground: constant Color := (R => 80, G => 255, B => 80, A => 255);
 
 
    -- helper functions  
@@ -143,8 +137,8 @@ begin
    Init_Window(Screen_Width, Screen_Height, To_C("Hypercube")); -- Null termination handled by To_C
    while Window_Should_Close = 0 loop
       Begin_Drawing;
-      Clear_Background(Background);
-      Draw_Text(To_C("Hello from Ada"), 190, 200, 20, Foreground);
+      Clear;
+      Draw_Text (To_C ("Hello from Ada"), 190, 200, 20, Foreground);
       End_Drawing;
    end loop;
 end;
