@@ -48,8 +48,8 @@ procedure Main is
    procedure Draw_Text(Text: char_array; PosX, PosY: int; FontSize: Int; C: Color)
       with Import => True, Convention => C, External_Name => "DrawText";
 
-   procedure Draw_Line(Start_X, Start_Y, End_X, End_Y: int; Col: Color)
-      with Import => True, Convention => C, External_Name => "DrawLine";
+   --procedure Draw_Line(Start_X, Start_Y, End_X, End_Y: int; Col: Color)
+   --   with Import => True, Convention => C, External_Name => "DrawLine";
 
    procedure Draw_Line_Ex (Start_X, Start_Y, End_X, End_Y, Thickness: float; col: Color) 
       with Import => True, Convention => C, External_Name => "DrawLineEx";
@@ -79,11 +79,14 @@ procedure Main is
    );
 
    type Index is new Positive;
-   type Index_Array is array (positive range<>) of Index;
+   type Face is array(positive range<>) of Index;
+   type Face_Access is access constant Face; -- pointers array
+   type Faces is array(positive range<>) of Face_Access;
+   
 
-   faces: constant array(1..2) of Index_Array := (
-      (1,2,3,4),
-      (5,6,7,8)
+   Faces_Matrix: constant Faces := (
+      1 => new Face'(1,2)
+      --2 => new Face'(5,6,7,8)
    );
 
 
@@ -143,7 +146,7 @@ procedure Main is
          float(A.Y),
          float(B.X), 
          float(B.Y),
-         float(3.0),
+         float(0.1),
          Foreground
       );
    end Draw_Line;
@@ -151,7 +154,7 @@ procedure Main is
    procedure Frame is
       dt: constant float := 1.0/FPS;
    begin
-      angle := angle + Pi * dt;
+      --angle := angle + Pi * dt;
       --dz := dz + dt;
 
       clear;
@@ -160,18 +163,19 @@ procedure Main is
          Draw_Point(Screen(Project(Translate_Z(Rotate_XZ(vertice, angle), dz))));
       end loop;
 
-      for face of faces loop
-         for index in face'Range loop
-            declarevertice
+      for Face_Array of Faces_Matrix loop
+         for index in Face_Array'Range loop
+            declare
                -- we shall not use mod as the ada array are not zero based and can be anything !!
                A: vec3 := vertices(index);
-               Next_Index: Positive := (if index = face'Last then face'First else index + 1);
+               Next_Index: Positive := (if index = Face_Array'Last then Face_Array'First else index + 1);
                B: vec3 := vertices(Next_Index);
             begin
                Draw_Line (
                   Screen(Project(Translate_Z(Rotate_XZ(A, angle), dz))), 
                   Screen(Project(Translate_Z(Rotate_XZ(B, angle), dz)))
                );
+               Put_line("Line from " & Float'Image(A.X) & ", " & Float'Image(A.Y)& " To " & Float'Image(B.X)& ", " & Float'Image(B.Y));
             end;
          end loop;
       end loop;
@@ -187,7 +191,7 @@ begin
       Clear;
       Frame;
       End_Drawing;   
-      Delay(Duration(1.0/FPS));
+      Delay(Duration(100.0/FPS));
    end loop;
 
       -- Draw_Text (To_C ("Hello from Ada"), 190, 200, 20, Foreground);
