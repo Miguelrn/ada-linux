@@ -10,7 +10,7 @@ RV NO_IO
 RV NO_RELATIVE_DELAY
 RV NO_SECONDARY_STACK
 
-U main%b		main.adb		899ce88d NE OO SU
+U main%b		main.adb		44da1369 NE OO SU
 W ada%s			ada.ads			ada.ali
 Z ada.calendar.delays%s	a-caldel.adb		a-caldel.ali
 W ada.numerics%s	a-numeri.ads		a-numeri.ali
@@ -39,7 +39,7 @@ D a-unccon.ads		20240521074738 0e9b276f ada.unchecked_conversion%s
 D interfac.ads		20240521074738 15f799c2 interfaces%s
 D i-c.ads		20240521074738 5c5a6c17 interfaces.c%s
 D i-cstrea.ads		20240521074738 e53d8b8e interfaces.c_streams%s
-D main.adb		20260109215022 d14f785d main%b
+D main.adb		20260110191304 1c0983b9 main%b
 D system.ads		20240521074738 426dafb8 system%s
 D s-crtl.ads		20240521074738 8a0692f8 system.crtl%s
 D s-exctab.ads		20240521074738 91bef6ef system.exception_table%s
@@ -135,7 +135,7 @@ X 19 main.adb
 59i4 Screen_Width{17|57I9} 93r42 159r16
 60i4 Screen_Height{17|57I9} 94r50 159r30
 62f4 FPS{float} 144r33 166r26
-63f4 dz{float} 147m7 147r13 152r75
+63f4 dz{float} 152r75
 64f4 angle{float} 146m7 146r16 152r67
 66r4 Background{34R9} 116r25
 67r4 Foreground{34R9} 127r10 139r10
@@ -160,6 +160,6 @@ X 19 main.adb
 131r25 A{11R9} 134r16 135r16
 131r28 B{11R9} 136r16 137r16
 143U14 Frame 143b14 155l8 155t13 164s7
-144f7 dt{float} 146r29 147r18
+144f7 dt{float} 146r29
 151r11 vertice=151:22{15R9} 152r58
 

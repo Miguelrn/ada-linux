@@ -78,6 +78,14 @@ procedure Main is
       (x => 0.25, y => -0.25, z => -0.25)
    );
 
+   type Index is new Positive;
+   type Index_Array is array (positive range<>) of Index;
+
+   faces: constant array(1..2) of Index_Array := (
+      (1,2,3,4),
+      (5,6,7,8)
+   );
+
 
    -- helper functions
    function Project (P: Vec3) return Vec2 is
@@ -144,12 +152,28 @@ procedure Main is
       dt: constant float := 1.0/FPS;
    begin
       angle := angle + Pi * dt;
-      dz := dz + dt;
+      --dz := dz + dt;
 
       clear;
 
       for vertice of vertices loop
          Draw_Point(Screen(Project(Translate_Z(Rotate_XZ(vertice, angle), dz))));
+      end loop;
+
+      for face of faces loop
+         for index in face'Range loop
+            declarevertice
+               -- we shall not use mod as the ada array are not zero based and can be anything !!
+               A: vec3 := vertices(index);
+               Next_Index: Positive := (if index = face'Last then face'First else index + 1);
+               B: vec3 := vertices(Next_Index);
+            begin
+               Draw_Line (
+                  Screen(Project(Translate_Z(Rotate_XZ(A, angle), dz))), 
+                  Screen(Project(Translate_Z(Rotate_XZ(B, angle), dz)))
+               );
+            end;
+         end loop;
       end loop;
 
    end Frame;
